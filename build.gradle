@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+group = 'org.zkoss.zk.demo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+    maven { url "https://mavensync.zkoss.org/maven2" }
+    maven { url "https://mavensync.zkoss.org/eval" }
+}
+
+ext {
+    zkspringbootVersion = '1.0.4'
+}
+
+dependencies {
+    implementation "org.zkoss.zkspringboot:zkspringboot-autoconfig:${zkspringbootVersion}"
+    implementation('org.zkoss.zk:zkmax:9.0.0-Eval') {
+        exclude group: 'net.sf.jasperreports'
+    }
+    implementation 'org.zkoss.zk:zkplus:9.0.0-Eval'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtime 'org.hsqldb:hsqldb:2.5.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task staticBuild(type: Copy) {
+    dependsOn ':frontend:npm_run_build'
+    from 'frontend/build'
+    into 'src/main/resources/static'
+}
+
+application {
+    mainClassName = 'react.App'
+}

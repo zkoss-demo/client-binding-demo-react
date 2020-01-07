@@ -1,0 +1,20 @@
+import 'babel-polyfill'
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import App from './components/App';
+import Root from './Root';
+
+import './index.scss';
+
+let zk = window.zk;
+if (zk) {
+  zk.afterMount(function () {
+    ReactDOM.render(
+      <Root>
+        <App />
+      </Root>,
+      document.getElementById('root')
+    );
+  });
+}
