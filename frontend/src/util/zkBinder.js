@@ -1,3 +1,5 @@
+import { EventEmitter } from 'events';
+
 function getBinder(name) {
   return window.zkbind && window.zkbind.$(name);
 }
@@ -7,15 +9,6 @@ export default {
     let binder = getBinder(name);
     if (binder) {
       binder.after(event, callback);
-      return true;
-    }
-    return false;
-  },
-
-  unAfter(name, event, callback) {
-    let binder = getBinder(name);
-    if (binder) {
-      binder.unAfter(event, callback);
       return true;
     }
     return false;
@@ -31,18 +24,18 @@ export default {
   },
 
   init(name, command, event) {
+    this.init.emitters = this.init.emitters || {};
     let binder = getBinder(name);
     if (binder) {
-      return new Promise((resolve, reject) => {
-        let fn = res => {
-          this.unAfter(name, event, fn);
-          resolve(res);
-        };
-        let result = this.after(name, event, fn);
-        if (!result)
-          reject(new Error('Binder not found'));
-        this.command(name, command);
-      })
+      let emitter = this.init.emitters[event];
+      if (!emitter) {
+        this.init.emitters[event] = emitter = new EventEmitter();
+        binder.after(event, data => emitter.emit('data', data));
+      }
+      return new Promise(resolve => {
+        emitter.once('data', resolve);
+        binder.command(command);
+      });
     }
     return Promise.reject(new Error('Binder not found'));
   }
