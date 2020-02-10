@@ -10,7 +10,6 @@ import react.service.ProductService;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.NotifyCommand;
 import org.zkoss.bind.annotation.NotifyCommands;
@@ -25,10 +24,10 @@ import org.zkoss.zkplus.spring.DelegatingVariableResolver;
  * @author rudyhuang
  */
 @NotifyCommands({
-	@NotifyCommand(value = "getProducts", onChange = "_vm_.products")
+	@NotifyCommand(value = "loadProductsDone", onChange = "_vm_.products")
 })
-@ToServerCommand({"tipProducts", "placeOrder"})
-@ToClientCommand({"getProducts"})
+@ToServerCommand({"loadProducts", "placeOrder"})
+@ToClientCommand({"loadProductsDone"})
 @VariableResolver(DelegatingVariableResolver.class)
 public class IndexVM {
 	private static final Logger LOG = LoggerFactory.getLogger(IndexVM.class);
@@ -40,19 +39,14 @@ public class IndexVM {
 
 	private Map<String, Integer> cartProducts;
 
-	@Init
-	public void init() {
-		products = productService.getProducts();
-	}
-
 	public List<ProductDto> getProducts() {
 		return products;
 	}
 
 	@Command
 	@NotifyChange("products")
-	public void tipProducts() {
-		// just triggering getProducts
+	public void loadProducts() {
+		products = productService.getProducts();
 	}
 
 	@Command

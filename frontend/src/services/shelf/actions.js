@@ -15,7 +15,7 @@ const compare = {
 };
 
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
-  return zkBinder.init('$main', 'tipProducts', 'getProducts')
+  return zkBinder.init('$main', 'loadProducts', 'loadProductsDone')
     .then(products => {
       if (!!filters && filters.length > 0) {
         products = products.filter(p =>

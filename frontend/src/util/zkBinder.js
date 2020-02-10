@@ -30,7 +30,7 @@ export default {
       let emitter = this.init.emitters[event];
       if (!emitter) {
         this.init.emitters[event] = emitter = new EventEmitter();
-        binder.after(event, data => emitter.emit('data', data));
+        binder.after(event, data => { if (data) emitter.emit('data', data) });
       }
       return new Promise(resolve => {
         emitter.once('data', resolve);
