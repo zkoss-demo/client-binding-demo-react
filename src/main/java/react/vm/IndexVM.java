@@ -45,8 +45,10 @@ public class IndexVM {
 
 	@Command
 	@NotifyChange("products")
-	public void loadProducts() {
-		products = productService.getProducts();
+	public void loadProducts(@BindingParam("filterSizes") List<String> filterSizes) {
+		products = filterSizes == null || filterSizes.isEmpty()
+				? productService.getProducts()
+				: productService.getProductsFilterByAvailableSizes(filterSizes);
 	}
 
 	@Command

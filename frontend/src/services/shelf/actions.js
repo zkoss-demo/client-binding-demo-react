@@ -15,13 +15,13 @@ const compare = {
 };
 
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
-  return zkBinder.init('$main', 'loadProducts', 'loadProductsDone')
+  return zkBinder.init('$main', 'loadProducts', {filterSizes: filters}, 'loadProductsDone')
     .then(products => {
-      if (!!filters && filters.length > 0) {
-        products = products.filter(p =>
-          filters.find(f => p.availableSizes.find(size => size === f))
-        );
-      }
+      // if (!!filters && filters.length > 0) {
+      //   products = products.filter(p =>
+      //     filters.find(f => p.availableSizes.find(size => size === f))
+      //   );
+      // }
 
       if (!!sortBy) {
         products = products.sort(compare[sortBy]);

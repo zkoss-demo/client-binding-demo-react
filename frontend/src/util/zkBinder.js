@@ -23,7 +23,7 @@ export default {
     return false;
   },
 
-  init(name, command, event) {
+  init(name, command, commandArguments, event) {
     this.init.emitters = this.init.emitters || {};
     let binder = getBinder(name);
     if (binder) {
@@ -34,7 +34,7 @@ export default {
       }
       return new Promise(resolve => {
         emitter.once('data', resolve);
-        binder.command(command);
+        binder.command(command, commandArguments);
       });
     }
     return Promise.reject(new Error('Binder not found'));

@@ -33,4 +33,8 @@ public class ProductService {
 	public List<ProductDto> getProducts() {
 		return productDao.findAllProducts();
 	}
+
+	public List<ProductDto> getProductsFilterByAvailableSizes(List<String> availableSizes) {
+		return productDao.findAllProductsFilterByAvailableSizes(availableSizes);
+	}
 }
