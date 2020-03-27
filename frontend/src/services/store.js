@@ -2,10 +2,10 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
-export default initialState => {
+export default ( initialState, zkapi ) => {
   initialState =
     JSON.parse(window.localStorage.getItem('state')) || initialState;
-  const middleware = [thunk];
+  const middleware = [thunk.withExtraArgument({ zkapi })];
 
   const store = createStore(
     rootReducer,

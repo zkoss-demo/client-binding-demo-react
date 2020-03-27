@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { loadCart, removeProduct, changeProductQuantity } from '../../services/cart/actions';
+import { loadCart, removeProduct, changeProductQuantity, submitCart } from '../../services/cart/actions';
 import { updateCart } from '../../services/total/actions';
 import CartProduct from './CartProduct';
 import { formatPrice } from '../../services/util';
 
 import './style.scss';
-import zkBinder from "../../util/zkBinder";
 
 class FloatCart extends Component {
   static propTypes = {
     loadCart: PropTypes.func.isRequired,
     updateCart: PropTypes.func.isRequired,
+    submitCart: PropTypes.func.isRequired,
     cartProducts: PropTypes.array.isRequired,
     newProduct: PropTypes.object,
     removeProduct: PropTypes.func,
@@ -78,22 +78,8 @@ class FloatCart extends Component {
   };
 
   proceedToCheckout = () => {
-    const {
-      totalPrice,
-      productQuantity,
-      currencyFormat,
-      currencyId
-    } = this.props.cartTotal;
-
-    if (!productQuantity) {
-      alert('Add some product in the cart!');
-    } else {
-      let products = this.props.cartProducts
-        .map(p => ({[p.id]: p.quantity}))
-        .reduce((acc, curr) => Object.assign(acc, curr), {});
-      zkBinder.command('$main', 'placeOrder',
-        {format: currencyFormat, price: totalPrice, id: currencyId, products: products});
-    }
+    const { submitCart, cartProducts, cartTotal } = this.props;
+    submitCart(cartProducts, cartTotal);
   };
 
   changeProductQuantity = changedProduct => {
@@ -204,5 +190,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loadCart, updateCart, removeProduct, changeProductQuantity }
+  { loadCart, updateCart, removeProduct, changeProductQuantity, submitCart }
 )(FloatCart);

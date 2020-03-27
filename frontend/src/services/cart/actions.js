@@ -19,3 +19,13 @@ export const changeProductQuantity = product => ({
   type: CHANGE_PRODUCT_QUANTITY,
   payload: product
 });
+
+export const submitCart = (cartProducts, total) => (dispatch, getState, { zkapi }) => {
+  console.log("submitCart");
+
+  const products = {};
+  cartProducts.forEach(p => (products[p.id] = p.quantity));
+
+  zkapi.binder.command('placeOrder', {...total, products});
+};
+

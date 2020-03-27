@@ -7,14 +7,16 @@ import Root from './Root';
 
 import './index.scss';
 
-let zk = window.zk;
+const { zk, zkbind, zWatch } = window;
 if (zk) {
   zk.afterMount(function () {
+    const rootElement = document.getElementById('root');
+    const binder = zkbind.$(rootElement);
     ReactDOM.render(
-      <Root>
+      <Root zkapi = {{ binder, zWatch }}>
         <App />
       </Root>,
-      document.getElementById('root')
+      rootElement
     );
   });
 }
