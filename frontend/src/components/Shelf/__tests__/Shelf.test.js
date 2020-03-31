@@ -39,23 +39,27 @@ const initialState = {
 
 let wrapped;
 
-beforeEach(() => {
+zkapi.load = () => Promise.resolve(initialState.shelf.products)
+
+beforeEach(async () => {
   wrapped = mount(
-    <Root initialState={initialState}>
+    <Root initialState={initialState} zkapi={zkapi}>
       <Shelf />
     </Root>
   );
+  await flushPromises();
+  wrapped.update();
 });
 
 afterEach(() => {
   wrapped.unmount();
 });
 
-it('shows 2 products component', () => {
+it('shows 2 products component', async () => {
   expect(wrapped.find(Product).length).toEqual(2);
 });
 
-it('shows a shelf header with 2 products', () => {
+it('shows a shelf header with 2 products', async () => {
   expect(wrapped.find(ShelfHeader).props().productsLength).toEqual(2);
 });
 

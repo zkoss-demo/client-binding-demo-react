@@ -51,7 +51,6 @@ class Shelf extends Component {
   render() {
     const { products } = this.props;
     const { isLoading } = this.state;
-
     return (
       <React.Fragment>
         {isLoading && <Spinner />}

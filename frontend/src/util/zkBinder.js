@@ -1,16 +1,18 @@
-export const zkFetch = function(zkapi, command, args, resultCommand) {
+const zWatch = window.zWatch;
+
+export const loadFromViewModel = function(binder, command, args, resultCommand) {
   return new Promise((resolve, reject) => {
     const handleResponse = function(data) {
-      setTimeout(() => zkapi.binder.unAfter(resultCommand, handleResponse), 0);
+      setTimeout(() => binder.unAfter(resultCommand, handleResponse), 0);
       resolve(data);
     };
-    zkapi.binder.command(command, args, { duplicateIgnore: true });
+    binder.command(command, args, { duplicateIgnore: true });
     const watchListener = {
       onSend: function() {
-        zkapi.binder.after(resultCommand, handleResponse);
-        zkapi.zWatch.unlisten({onSend: watchListener});
+        binder.after(resultCommand, handleResponse);
+        zWatch.unlisten({onSend: watchListener});
       }
     };
-    zkapi.zWatch.listen({onSend: watchListener});
+    zWatch.listen({onSend: watchListener});
   });
 };

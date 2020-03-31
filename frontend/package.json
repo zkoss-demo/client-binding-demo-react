@@ -17,7 +17,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"react-app-rewired start\"",
+    "start": "concurrently \"npm run server\" \"BROWSER='none', react-app-rewired start\"",
     "server": "nodemon server/app",
     "wdio": "wdio",
     "build": "react-app-rewired build",

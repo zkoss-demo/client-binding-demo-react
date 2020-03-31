@@ -6,9 +6,11 @@ import FloatCart from '../../FloatCart';
 
 let wrapped;
 
+zkapi.load = () => Promise.resolve([]);
+
 beforeEach(() => {
   wrapped = mount(
-    <Root>
+    <Root zkapi={zkapi}>
       <App />
     </Root>
   );

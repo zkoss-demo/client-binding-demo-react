@@ -1,5 +1,3 @@
-import moxios from 'moxios';
-
 import Root from '../Root';
 import App from '../components/App';
 import ShelfHeader from '../components/Shelf/ShelfHeader';
@@ -46,21 +44,19 @@ const productsMock = {
 };
 
 beforeEach(() => {
-  moxios.install();
-  moxios.stubRequest(productsAPI, {
-    status: 200,
-    response: productsMock
-  });
 });
 
 afterEach(() => {
-  moxios.uninstall();
 });
 
+zkapi.load = () => {
+  return Promise.resolve(productsMock.products);
+}
+
 describe('Integrations', () => {
-  it('should fetch 2 products and add 1 to cart', done => {
+  it('should fetch 2 products and add 1 to cart', async done => {
     const wrapped = mount(
-      <Root>
+      <Root zkapi = {zkapi}>
         <App />
       </Root>
     );
@@ -68,26 +64,24 @@ describe('Integrations', () => {
     /* Before fetch the shelf should contain 0 products in it */
     expect(wrapped.find(ShelfHeader).props().productsLength).toEqual(0);
 
-    moxios.wait(() => {
-      wrapped.update();
+    await flushPromises();
+    wrapped.update();
+    /* and then after fetch, should contain 2 */
+    expect(wrapped.find(ShelfHeader).props().productsLength).toEqual(2);
 
-      /* and then after fetch, should contain 2 */
-      expect(wrapped.find(ShelfHeader).props().productsLength).toEqual(2);
+    /* Cart should start with 0 products */
+    expect(wrapped.find(CartProduct).length).toEqual(0);
 
-      /* Cart should start with 0 products */
-      expect(wrapped.find(CartProduct).length).toEqual(0);
+    /* Click to add product to cart */
+    wrapped
+      .find(Product)
+      .at(0)
+      .simulate('click');
 
-      /* Click to add product to cart */
-      wrapped
-        .find(Product)
-        .at(0)
-        .simulate('click');
+    /* Then after one product is added to cart, it should have 1 in it */
+    expect(wrapped.find(CartProduct).length).toEqual(1);
 
-      /* Then after one product is added to cart, it should have 1 in it */
-      expect(wrapped.find(CartProduct).length).toEqual(1);
-
-      wrapped.unmount();
-      done();
-    });
+    wrapped.unmount();
+    done();
   });
 });

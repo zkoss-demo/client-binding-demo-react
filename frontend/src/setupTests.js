@@ -9,3 +9,13 @@ global.React = React;
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
+
+global.zkapi = {
+  load: () => Promise.resolve([]),
+  binder: {}
+};
+
+global.flushPromises = function() {
+  return new Promise(resolve => setImmediate(resolve));
+}
+

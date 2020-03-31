@@ -1,8 +1,8 @@
 <?meta name="viewport" content="width=device-width, initial-scale=1"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <?page title="Shopping mall"?>
-<?script src="/bundle.js"?>
-<!--<?script src="http://localhost:3000/bundle.js"?>-->
-<?link rel="stylesheet" href="/static/css/main.fa268ce2.css"?>
+<?script src="${c:property('shoppingcart.bundle.js')}"?>
+<?link rel="stylesheet" href="${c:property('shoppingcart.bundle.css')}"?>
 <zk xmlns:n="native">
     <div id="main" viewModel="@id('vm') @init('react.vm.IndexVM')">
         <n:div id="root"/>

@@ -21,7 +21,7 @@ export const changeProductQuantity = product => ({
 });
 
 export const submitCart = (cartProducts, total) => (dispatch, getState, { zkapi }) => {
-  console.log("submitCart");
+  console.log("submitCart boooo");
 
   const products = {};
   cartProducts.forEach(p => (products[p.id] = p.quantity));

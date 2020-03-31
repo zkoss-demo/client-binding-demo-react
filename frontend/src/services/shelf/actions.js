@@ -1,5 +1,4 @@
 import { FETCH_PRODUCTS } from './actionTypes';
-import { zkFetch } from "../../util/zkBinder";
 
 const compare = {
   lowestprice: (a, b) => {
@@ -15,9 +14,8 @@ const compare = {
 };
 
 export const fetchProducts = (filters, sortBy, callback) => (dispatch, getState, { zkapi }) => {
-  zkFetch(zkapi, 'loadProducts', {filterSizes: filters}, 'loadProductsDone')
+  zkapi.load('loadProducts', {filterSizes: filters}, 'loadProductsDone')
     .then(products => {
-
       if (!!sortBy) {
         products = products.sort(compare[sortBy]);
       }
