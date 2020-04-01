@@ -50,6 +50,14 @@ cd frontend
 npm run wdio
 ```
 
+## Package/Run Demo
+
+```bash
+./gradlew clean staticBuild build
+java -jar build/libs/client-binding-demo-react-0.0.1-SNAPSHOT.jar
+```
+
+
 ## License
 
 * Demo Code - Apache License 2.0
