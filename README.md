@@ -5,6 +5,11 @@
 * Java 8
 * Node.js
 
+## TODO
+
+* copy resources into output classpath during `staticBuild` (instead of src/main/resources/static)
+* remove hard coded hashcode of minified `/static/css/main.XXXXXX.css` in `application.properties` (implement alternative way of cache breaking)
+
 ## Run the Demo
 
 ### Production mode (static, minified js/css)
