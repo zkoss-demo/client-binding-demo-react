@@ -17,12 +17,15 @@ http://localhost:8080
 
 ### Development mode (live-reload js/css)
 
-ZK App
+**ZK App**
 ```bash
 SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
 ```
 
-React App
+from IDE run main class `react.App` (with vm options: `-Dspring.profiles.active=dev`)
+
+
+**React App**
 ```bash
 cd frontend
 npm start
@@ -30,19 +33,20 @@ npm start
 
 http://localhost:3000/dev
 
-changes to
-* frontend JS/CSS will reload the page automatically (live-reload) 
-* zk resources require re-build and browser-refresh (without restarting)
+* react JS/CSS will reload the page automatically (live-reload) 
+* zk resources require re-build/compile (in IDE) and browser-refresh (without restarting server)
 
 ### Tests
 
-React Tests
+**React Tests**
 ```bash
+cd frontend
 npm test
 ```
 
-Webdriver-io Test (with ZK/React App running in development mode)
+**Webdriver-io Test** (with ZK/React App running in development mode)
 ```bash
+cd frontend
 npm run wdio
 ```
 
